@@ -80,7 +80,11 @@ if pdf_file:
             with st.chat_message("assistant"):
                 with st.spinner("Thinking..."):
                     prompt = f"""
-You are a helpful AI assistant. Answer questions based on the provided PDF content. Be concise and accurate.
+You are a helpful AI assistant. 
+- Use the PDF content as the primary source for answers
+- If information is not in the PDF, supplement with all knowledge you have
+- Clearly indicate when you're using external knowledge vs PDF content
+- Be concise and accurate.
 
 PDF Content:
 {st.session_state.pdf_text}
