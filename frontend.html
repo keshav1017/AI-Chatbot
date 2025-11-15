@@ -1,77 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mini PDF QA Chatbot</title>
-  <script>
-    async function uploadPDF() {
-      const file = document.getElementById("pdf").files[0];
-      const fd = new FormData();
-      fd.append("file", file);
-
-      const res = await fetch("http://localhost:8000/upload", {
-        method: "POST",
-        body: fd
-      });
-
-      alert("PDF Uploaded!");
-    }
-
-    async function ask() {
-      const question = document.getElementById("q").value;
-      const fd = new FormData();
-      fd.append("question", question);
-
-      const res = await fetch("http://localhost:8000/ask", {
-        method: "POST",
-        body: fd
-      });
-
-      const data = await res.json();
-      document.getElementById("answer").innerText = data.answer;
-    }
-  </script>
-
-  <style>
-    body {
-      background: linear-gradient(135deg, #7f00ff, #e100ff);
-      color: white;
-      font-family: Arial;
-      padding: 40px;
-      text-align: center;
-    }
-    .card {
-      background: white;
-      padding: 20px;
-      color: black;
-      border-radius: 15px;
-      width: 500px;
-      margin: auto;
-    }
-    button {
-      padding: 10px 20px;
-      background: #7f00ff;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-  </style>
+    <title>AI PDF Chatbot</title>
 </head>
-
 <body>
-  <h1>📄 Mini PDF Q&A Chatbot</h1>
+    <h1>AI PDF Chatbot</h1>
 
-  <div class="card">
-    <input type="file" id="pdf">
-    <button onclick="uploadPDF()">Upload PDF</button>
+    <h3>Upload PDF</h3>
+    <input type="file" id="pdfFile">
 
-    <br><br>
-    <input type="text" id="q" placeholder="Ask your question..." style="width:100%; padding:10px;">
+    <button onclick="uploadPDF()">Upload</button>
+
+    <h3>Ask a question</h3>
+    <input id="question" placeholder="Type question..." size="50">
     <button onclick="ask()">Ask</button>
 
-    <h3>Answer:</h3>
-    <p id="answer"></p>
-  </div>
+    <h2>Answer:</h2>
+    <pre id="answer"></pre>
+
+<script>
+async function uploadPDF() {
+    const file = document.getElementById("pdfFile").files[0];
+    const form = new FormData();
+    form.append("file", file);
+
+    const res = await fetch("http://127.0.0.1:8000/upload", {
+        method: "POST",
+        body: form
+    });
+    alert("PDF Uploaded");
+}
+
+async function ask() {
+    const question = document.getElementById("question").value;
+
+    const res = await fetch("http://127.0.0.1:8000/ask", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ question })
+    });
+
+    const data = await res.json();
+    document.getElementById("answer").innerText = data.answer;
+}
+</script>
 </body>
 </html>

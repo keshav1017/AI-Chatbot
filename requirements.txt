@@ -1,5 +1,9 @@
-fastapi
-uvicorn
-PyPDF2
+streamlit
 google-generativeai
+langchain
+langchain-core
+langchain-community
+pdfplumber
 python-dotenv
+faiss-cpu
+langchain-google-genai
